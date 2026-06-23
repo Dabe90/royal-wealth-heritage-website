@@ -1,65 +1,240 @@
+import Link from "next/link";
 import Image from "next/image";
+import {
+  ArrowRight,
+  GraduationCap,
+  Landmark,
+  Sparkles,
+  Target,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+import { SectionHeading } from "@/components/SectionHeading";
+import { ServiceCard } from "@/components/ServiceCard";
+import { DisclaimerBanner } from "@/components/DisclaimerBanner";
+import {
+  academy,
+  academyMissionStatement,
+  company,
+  financialMission,
+  financialServices,
+} from "@/lib/content";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <>
+      {/* Hero */}
+      <section className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
+        <div className="absolute inset-0 -z-10">
+          <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-b from-magenta/10 to-transparent blur-3xl" />
+        </div>
+
+        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
+          <div>
+            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-magenta/20 bg-white/80 px-4 py-1.5 text-xs font-semibold tracking-wider text-magenta uppercase backdrop-blur">
+              <Sparkles className="h-3.5 w-3.5" />
+              Texas Registered Business
+            </p>
+            <h1 className="font-serif text-4xl font-bold leading-tight text-magenta-dark sm:text-5xl lg:text-6xl">
+              Empowering Growth.{" "}
+              <span className="gradient-text">Building Independence.</span>{" "}
+              Creating Opportunity.
+            </h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+              Royal Wealth Heritage LLC delivers trusted financial guidance and specialized
+              educational support through our Life Skills & Learning Academy.
+            </p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link
+                href="/financial-services"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-magenta/25 transition hover:opacity-90"
+              >
+                Financial Services
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/academy"
+                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-magenta/30 bg-white px-7 py-3.5 text-sm font-semibold text-magenta transition hover:border-magenta hover:bg-magenta/5"
+              >
+                Life Skills Academy
+                <GraduationCap className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
+            <div className="animate-float relative mx-auto aspect-square max-w-sm">
+              <div className="absolute inset-4 rounded-full bg-gradient-to-br from-magenta/20 to-burnt-orange/20 blur-2xl" />
+              <div className="relative overflow-hidden rounded-3xl border border-gold/30 bg-white p-6 shadow-2xl shadow-magenta/15">
+                <Image
+                  src="/images/logo.png"
+                  alt={`${company.name} — shield logo with crown`}
+                  width={480}
+                  height={480}
+                  className="mx-auto h-auto w-full"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission strip */}
+      <section className="border-y border-border bg-white/60 px-4 py-12 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-5xl text-center">
+          <p className="font-serif text-2xl font-medium leading-relaxed text-magenta-dark sm:text-3xl">
+            &ldquo;{academyMissionStatement}&rdquo;
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* Two divisions */}
+      <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            eyebrow="Our Divisions"
+            title="Two Paths, One Mission of Empowerment"
+            description="Whether you're building financial stability or supporting a student's growth, Royal Wealth Heritage LLC is here with integrity, clarity, and personalized care."
+          />
+
+          <div className="mt-14 grid gap-8 lg:grid-cols-2">
+            <article className="group relative overflow-hidden rounded-3xl border border-border bg-white p-8 shadow-sm transition hover:shadow-xl">
+              <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-magenta/5 transition group-hover:bg-magenta/10" />
+              <div className="relative">
+                <div className="mb-5 inline-flex rounded-2xl bg-magenta/10 p-4 text-magenta">
+                  <Landmark className="h-8 w-8" />
+                </div>
+                <h3 className="font-serif text-2xl font-semibold text-magenta-dark">
+                  Financial Consulting
+                </h3>
+                <p className="mt-3 leading-relaxed text-muted">{financialMission.description}</p>
+                <Link
+                  href="/financial-services"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-magenta transition hover:gap-3"
+                >
+                  Explore Financial Services <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </article>
+
+            <article className="group relative overflow-hidden rounded-3xl border border-border bg-white p-8 shadow-sm transition hover:shadow-xl">
+              <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-burnt-orange/5 transition group-hover:bg-burnt-orange/10" />
+              <div className="relative">
+                <div className="mb-5 inline-flex rounded-2xl bg-burnt-orange/10 p-4 text-burnt-orange">
+                  <GraduationCap className="h-8 w-8" />
+                </div>
+                <h3 className="font-serif text-2xl font-semibold text-magenta-dark">
+                  {academy.name}
+                </h3>
+                <p className="mt-1 text-sm font-medium text-burnt-orange">{academy.subtitle}</p>
+                <p className="mt-3 leading-relaxed text-muted">{academy.tagline}</p>
+                <Link
+                  href="/academy"
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-burnt-orange transition hover:gap-3"
+                >
+                  Explore the Academy <ArrowRight className="h-4 w-4" />
+                </Link>
+              </div>
+            </article>
+          </div>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* Values */}
+      <section className="bg-gradient-to-br from-magenta-dark to-magenta px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            eyebrow="Why Choose RWH"
+            title="Integrity. Access. Lasting Impact."
+            description="We believe wealth is wisdom, discipline, and stewardship — and that every individual deserves the tools to thrive."
+            light
+          />
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { icon: Target, label: "Personalized Approach", desc: "Solutions tailored to your unique goals and circumstances." },
+              { icon: TrendingUp, label: "Practical Guidance", desc: "Clear, actionable strategies you can apply immediately." },
+              { icon: Users, label: "Family-Centered", desc: "Supporting individuals, families, and small businesses alike." },
+              { icon: Sparkles, label: "Legacy Building", desc: "Creating heritage that spans generations." },
+            ].map(({ icon: Icon, label, desc }) => (
+              <div
+                key={label}
+                className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur"
+              >
+                <Icon className="mb-4 h-8 w-8 text-gold-light" />
+                <h3 className="font-serif text-lg font-semibold text-white">{label}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-white/75">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Services preview */}
+      <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            eyebrow="Financial Services"
+            title="Guidance Rooted in Integrity"
+            description={financialMission.commitment}
+          />
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {financialServices.map((service) => (
+              <ServiceCard key={service.title} {...service} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Academy preview + disclaimer */}
+      <section className="bg-cream-dark/50 px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
+          <SectionHeading
+            eyebrow="Life Skills Academy"
+            title="Individualized Instruction for Real Growth"
+            description={academy.mission}
+          />
+
+          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {academy.services.slice(0, 4).map((service) => (
+              <ServiceCard key={service.title} {...service} />
+            ))}
+          </div>
+
+          <div className="mt-10 flex flex-col items-center gap-6">
+            <Link
+              href="/academy"
+              className="inline-flex items-center gap-2 rounded-full bg-magenta px-6 py-3 text-sm font-semibold text-white transition hover:bg-magenta-dark"
+            >
+              View All Academy Services <ArrowRight className="h-4 w-4" />
+            </Link>
+            <div className="w-full max-w-3xl">
+              <DisclaimerBanner />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="px-4 py-20 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-4xl rounded-3xl bg-gradient-to-r from-magenta via-magenta-light to-burnt-orange p-10 text-center shadow-2xl shadow-magenta/20 sm:p-14">
+          <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">
+            Ready to Take the Next Step?
+          </h2>
+          <p className="mx-auto mt-4 max-w-xl text-white/85">
+            Whether you&apos;re seeking financial guidance or educational support for your student,
+            we&apos;re here to help you move forward with confidence.
+          </p>
+          <Link
+            href="/contact"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-magenta shadow-lg transition hover:bg-cream"
+          >
+            Contact Us Today <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+    </>
   );
 }
