@@ -123,6 +123,21 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
+@media print {
+  header,
+  footer {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+  }
+
+  .print-form {
+    max-width: 100%;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

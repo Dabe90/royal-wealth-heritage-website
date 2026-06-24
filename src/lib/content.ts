@@ -159,7 +159,7 @@ export const academy = {
     {
       question: "How do I enroll my student?",
       answer:
-        "Complete the Parent Intake Form on our website to begin enrollment. We will guide you through the remaining documents — including waivers and agreements — before services begin.",
+        "Complete all enrollment forms on our website to begin. Visit the Enrollment Forms page to open and submit each document online.",
     },
     {
       question: "Are sessions in-person or virtual?",

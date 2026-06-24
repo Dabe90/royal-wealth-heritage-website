@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Award, CheckCircle2, Clock, FileText, Monitor, MapPin } from "lucide-react";
+import { ArrowRight, Award, CheckCircle2, Clock, Monitor, MapPin } from "lucide-react";
 import { PageHero, SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQAccordion } from "@/components/FAQAccordion";
 import { academy } from "@/lib/content";
+import { enrollmentForms } from "@/lib/forms-registry";
 
 export const metadata: Metadata = {
   title: "Life Skills & Learning Academy",
@@ -146,24 +147,28 @@ export default function AcademyPage() {
                 description="Our enrollment process ensures we understand your student's needs and align on goals before services begin."
                 align="left"
               />
-              <ul className="mt-8 space-y-3">
-                {academy.enrollmentChecklist.map((item) => (
-                  <li key={item} className="flex items-center gap-3 text-sm text-muted">
-                    <CheckCircle2 className="h-5 w-5 shrink-0 text-magenta" />
-                    {item}
-                  </li>
-                ))}
+              <ul className="mt-8 space-y-2">
+                {[...enrollmentForms]
+                  .sort((a, b) => a.order - b.order)
+                  .map((form) => (
+                    <li key={form.slug}>
+                      <Link
+                        href={form.href}
+                        className="flex items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-sm text-muted transition hover:border-magenta/20 hover:bg-white hover:text-magenta"
+                      >
+                        <CheckCircle2 className="h-5 w-5 shrink-0 text-magenta" />
+                        {form.title}
+                        <ArrowRight className="ml-auto h-4 w-4 opacity-0 transition group-hover:opacity-100" />
+                      </Link>
+                    </li>
+                  ))}
               </ul>
-              <div className="mt-6 flex gap-3 rounded-xl border border-magenta/20 bg-magenta/5 p-4">
-                <FileText className="mt-0.5 h-5 w-5 shrink-0 text-magenta" />
-                <p className="text-sm leading-relaxed text-muted">
-                  Start with the online Parent Intake Form. Remaining documents are provided after
-                  review.{" "}
-                  <Link href="/academy/enrollment" className="font-semibold text-magenta underline">
-                    Complete intake form →
-                  </Link>
-                </p>
-              </div>
+              <Link
+                href="/academy/forms"
+                className="mt-6 inline-flex items-center gap-2 rounded-full bg-magenta px-5 py-2.5 text-sm font-semibold text-white"
+              >
+                Open All Enrollment Forms <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
 
             <div>
@@ -212,10 +217,10 @@ export default function AcademyPage() {
             student&apos;s growth and independence.
           </p>
           <Link
-            href="/academy/enrollment"
+            href="/academy/forms"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:opacity-90"
           >
-            Complete Parent Intake Form <ArrowRight className="h-4 w-4" />
+            View Enrollment Forms <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>
