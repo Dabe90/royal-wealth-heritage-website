@@ -415,9 +415,86 @@ export function getFormBySlug(slug: string): EnrollmentFormDefinition | undefine
   return enrollmentForms.find((f) => f.slug === slug);
 }
 
-export function formatFormSubmission(
+export const sortedEnrollmentForms = [...enrollmentForms].sort((a, b) => a.order - b.order);
+
+/** Namespaced key prevents field collisions across steps in the unified wizard */
+export function fieldKey(formSlug: string, fieldId: string): string {
+  return `${formSlug}::${fieldId}`;
+}
+
+export function agreementKey(formSlug: string): string {
+  return `${formSlug}::agreementAccepted`;
+}
+
+const sharedFieldIds = [
+  "studentName",
+  "dateOfBirth",
+  "parentGuardian",
+  "parentEmail",
+  "parentPhone",
+];
+
+export function getWizardFieldValue(
+  data: Record<string, string | boolean>,
+  formSlug: string,
+  fieldId: string
+): string {
+  const own = data[fieldKey(formSlug, fieldId)];
+  if (typeof own === "string" && own.trim()) return own;
+
+  if (formSlug !== "parent-intake" && sharedFieldIds.includes(fieldId)) {
+    const shared = data[fieldKey("parent-intake", fieldId)];
+    if (typeof shared === "string") return shared;
+  }
+
+  return "";
+}
+
+export function validateStepFields(
   definition: EnrollmentFormDefinition,
   data: Record<string, string | boolean>
+): Record<string, string> {
+  const errors: Record<string, string> = {};
+
+  for (const field of definition.fields ?? []) {
+    const key = fieldKey(definition.slug, field.id);
+    const value =
+      field.type === "checkbox"
+        ? data[key]
+        : getWizardFieldValue(data, definition.slug, field.id);
+
+    if (field.required) {
+      if (field.type === "checkbox" && !value) {
+        errors[key] = "This field is required.";
+      } else if (typeof value === "string" && !value.trim()) {
+        errors[key] = `Please complete ${field.label.toLowerCase()}.`;
+      }
+    }
+
+    if (
+      field.type === "email" &&
+      typeof value === "string" &&
+      value &&
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)
+    ) {
+      errors[key] = "Please enter a valid email address.";
+    }
+  }
+
+  if (definition.kind === "agreement") {
+    const aKey = agreementKey(definition.slug);
+    if (!data[aKey]) {
+      errors[aKey] = "You must agree before continuing.";
+    }
+  }
+
+  return errors;
+}
+
+export function formatFormSubmission(
+  definition: EnrollmentFormDefinition,
+  data: Record<string, string | boolean>,
+  namespaced = false
 ): string {
   const lines = [
     `${definition.title.toUpperCase()} — RWH Life Skills & Learning Academy`,
@@ -430,18 +507,41 @@ export function formatFormSubmission(
   }
 
   for (const field of definition.fields ?? []) {
-    const value = data[field.id];
+    const value = namespaced
+      ? getWizardFieldValue(data, definition.slug, field.id)
+      : data[field.id];
     if (field.type === "checkbox") {
-      lines.push(`${field.label}: ${value ? "Yes" : "No"}`);
+      const raw = namespaced ? data[fieldKey(definition.slug, field.id)] : data[field.id];
+      lines.push(`${field.label}: ${raw ? "Yes" : "No"}`);
     } else if (value !== undefined && value !== "") {
       lines.push(`${field.label}: ${value}`);
     }
   }
 
-  if (data.agreementAccepted) {
+  const agreed = namespaced
+    ? data[agreementKey(definition.slug)]
+    : data.agreementAccepted;
+  if (agreed) {
     lines.push("", "Agreement Accepted: Yes");
   }
 
-  lines.push("", `Submitted: ${new Date().toLocaleString()}`);
+  lines.push("");
+  return lines.join("\n");
+}
+
+export function formatCompleteEnrollment(data: Record<string, string | boolean>): string {
+  const lines = [
+    "COMPLETE ENROLLMENT PACKET — RWH Life Skills & Learning Academy",
+    company.name,
+    `Submitted: ${new Date().toLocaleString()}`,
+    "=".repeat(60),
+    "",
+  ];
+
+  for (const form of sortedEnrollmentForms) {
+    lines.push(formatFormSubmission(form, data, true));
+    lines.push("-".repeat(40), "");
+  }
+
   return lines.join("\n");
 }

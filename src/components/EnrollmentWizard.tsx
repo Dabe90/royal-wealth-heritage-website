@@ -1,0 +1,267 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
+  Loader2,
+  Mail,
+} from "lucide-react";
+import { EnrollmentStepFields } from "@/components/EnrollmentStepFields";
+import {
+  formatCompleteEnrollment,
+  getWizardFieldValue,
+  sortedEnrollmentForms,
+  validateStepFields,
+} from "@/lib/forms-registry";
+import { submitEnrollmentForm } from "@/lib/submit-form";
+import { company, educationalDisclaimer } from "@/lib/content";
+
+export function EnrollmentWizard() {
+  const totalSteps = sortedEnrollmentForms.length + 1; // + review
+  const [step, setStep] = useState(0);
+  const [data, setData] = useState<Record<string, string | boolean>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "mailto">("idle");
+
+  const isReview = step === sortedEnrollmentForms.length;
+  const currentForm = isReview ? null : sortedEnrollmentForms[step];
+  const progress = Math.round(((step + 1) / totalSteps) * 100);
+
+  function setField(key: string, value: string | boolean) {
+    setData((prev) => ({ ...prev, [key]: value }));
+    setErrors((prev) => {
+      const next = { ...prev };
+      delete next[key];
+      return next;
+    });
+  }
+
+  function goNext() {
+    if (!currentForm) return;
+    const stepErrors = validateStepFields(currentForm, data);
+    if (Object.keys(stepErrors).length > 0) {
+      setErrors(stepErrors);
+      return;
+    }
+    setErrors({});
+    setStep((s) => s + 1);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function goBack() {
+    setErrors({});
+    setStep((s) => Math.max(0, s - 1));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  async function handleSubmit() {
+    setStatus("submitting");
+    const emailBody = formatCompleteEnrollment(data);
+    const replyTo = getWizardFieldValue(data, "parent-intake", "parentEmail");
+
+    const result = await submitEnrollmentForm(
+      "Complete Enrollment Packet",
+      replyTo,
+      "Complete Enrollment Packet",
+      { ...data, formattedBody: emailBody },
+      emailBody
+    );
+
+    setStatus(result === "success" ? "success" : "mailto");
+  }
+
+  if (status === "success") {
+    return (
+      <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
+        <CheckCircle2 className="mx-auto h-12 w-12 text-green-600" />
+        <h3 className="mt-4 font-serif text-2xl font-semibold text-green-900">
+          Enrollment Submitted
+        </h3>
+        <p className="mt-2 text-green-800">
+          Thank you! We received your complete enrollment packet and will contact you within 1–2
+          business days.
+        </p>
+        <Link href="/academy" className="mt-6 inline-block text-sm font-medium text-green-700 underline">
+          Back to Academy
+        </Link>
+      </div>
+    );
+  }
+
+  if (status === "mailto") {
+    return (
+      <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
+        <CheckCircle2 className="mx-auto h-12 w-12 text-green-600" />
+        <h3 className="mt-4 font-serif text-2xl font-semibold text-green-900">
+          Opening Your Email App
+        </h3>
+        <p className="mt-2 text-green-800">
+          Your complete enrollment packet is ready. Send the email from your mail app to finish.
+        </p>
+        <a href={`mailto:${company.email}`} className="mt-4 inline-flex items-center gap-2 font-semibold text-green-900 underline">
+          <Mail className="h-4 w-4" />
+          {company.email}
+        </a>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-8">
+      {/* Progress */}
+      <div>
+        <div className="mb-2 flex items-center justify-between text-sm">
+          <span className="font-medium text-magenta-dark">
+            {isReview ? "Review & Submit" : `Step ${step + 1} of ${sortedEnrollmentForms.length}`}
+          </span>
+          <span className="text-muted">{progress}% complete</span>
+        </div>
+        <div className="h-2 overflow-hidden rounded-full bg-cream-dark">
+          <div
+            className="h-full rounded-full bg-gradient-to-r from-magenta to-burnt-orange transition-all duration-300"
+            style={{ width: `${progress}%` }}
+          />
+        </div>
+        <div className="mt-3 hidden gap-1 sm:flex">
+          {sortedEnrollmentForms.map((form, i) => (
+            <button
+              key={form.slug}
+              type="button"
+              onClick={() => i < step && setStep(i)}
+              disabled={i > step}
+              className={`flex-1 truncate rounded-lg px-2 py-1.5 text-xs font-medium transition ${
+                i === step
+                  ? "bg-magenta text-white"
+                  : i < step
+                    ? "bg-magenta/15 text-magenta hover:bg-magenta/25"
+                    : "bg-cream-dark text-muted"
+              }`}
+              title={form.shortTitle}
+            >
+              {form.shortTitle}
+            </button>
+          ))}
+          <div
+            className={`flex-1 truncate rounded-lg px-2 py-1.5 text-center text-xs font-medium ${
+              isReview ? "bg-burnt-orange text-white" : "bg-cream-dark text-muted"
+            }`}
+          >
+            Review
+          </div>
+        </div>
+      </div>
+
+      <p className="rounded-lg border border-magenta/15 bg-magenta/5 px-4 py-3 text-xs leading-relaxed text-muted">
+        {educationalDisclaimer}
+      </p>
+
+      {isReview ? (
+        <div className="space-y-6">
+          <h2 className="font-serif text-2xl font-semibold text-magenta-dark">
+            Review Your Enrollment
+          </h2>
+          <p className="text-sm text-muted">
+            Please confirm all information below is correct before submitting your complete
+            enrollment packet.
+          </p>
+          {sortedEnrollmentForms.map((form) => (
+            <section key={form.slug} className="rounded-xl border border-border bg-cream-dark/20 p-5">
+              <h3 className="font-serif text-lg font-semibold text-magenta-dark">{form.title}</h3>
+              <dl className="mt-3 space-y-2">
+                {form.fields?.map((field) => {
+                  const val = getWizardFieldValue(data, form.slug, field.id);
+                  if (!val) return null;
+                  return (
+                    <div key={field.id} className="text-sm">
+                      <dt className="font-medium text-foreground">{field.label}</dt>
+                      <dd className="text-muted">{val}</dd>
+                    </div>
+                  );
+                })}
+                {form.kind === "agreement" && (
+                  <p className="text-sm font-medium text-green-700">✓ Agreement accepted</p>
+                )}
+              </dl>
+              <button
+                type="button"
+                onClick={() => setStep(form.order - 1)}
+                className="mt-3 text-xs font-semibold text-magenta underline"
+              >
+                Edit this section
+              </button>
+            </section>
+          ))}
+        </div>
+      ) : currentForm ? (
+        <div>
+          <h2 className="font-serif text-2xl font-semibold text-magenta-dark">{currentForm.title}</h2>
+          <p className="mt-2 text-sm text-muted">{currentForm.description}</p>
+          <div className="mt-6">
+            <EnrollmentStepFields
+              definition={currentForm}
+              data={data}
+              errors={errors}
+              onChange={setField}
+              readOnlyShared
+            />
+          </div>
+        </div>
+      ) : null}
+
+      {/* Navigation */}
+      <div className="flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:justify-between">
+        <button
+          type="button"
+          onClick={goBack}
+          disabled={step === 0}
+          className="inline-flex items-center justify-center gap-2 rounded-full border border-magenta/30 px-6 py-3 text-sm font-semibold text-magenta disabled:opacity-40"
+        >
+          <ChevronLeft className="h-4 w-4" />
+          Back
+        </button>
+
+        {isReview ? (
+          <button
+            type="button"
+            onClick={handleSubmit}
+            disabled={status === "submitting"}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-3 text-sm font-semibold text-white shadow-lg disabled:opacity-60"
+          >
+            {status === "submitting" ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Submitting...
+              </>
+            ) : (
+              <>
+                Submit Complete Enrollment
+                <CheckCircle2 className="h-4 w-4" />
+              </>
+            )}
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={goNext}
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-3 text-sm font-semibold text-white shadow-lg"
+          >
+            Continue
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+
+      <p className="text-center text-xs text-muted">
+        Prefer separate forms?{" "}
+        <Link href="/academy/forms" className="font-medium text-magenta underline">
+          Open individual documents
+        </Link>
+      </p>
+    </div>
+  );
+}

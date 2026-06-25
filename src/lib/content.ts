@@ -15,11 +15,38 @@ export const company = {
 };
 
 export const founder = {
-  name: "Helena Puati",
-  title: "Founder & Educational Director",
-  bio: "Helena Puati founded Royal Wealth Heritage LLC with a vision to help individuals and families build lasting stability — through financial stewardship and specialized educational support. As a Certified Special Education Teacher (ESL Certified, ELAR 4–8 Certified), she brings deep expertise supporting students with autism, communication challenges, and diverse learning needs.",
-  credentials:
-    "Certified Special Education Teacher, ESL Certified, ELAR 4-8 Certified. Specialized experience supporting students with autism, communication challenges, and diverse learning needs.",
+  name: "Helena C. Puati",
+  title: "Founder & CEO | Educational Director",
+  image: "/images/helena-puati-founder.png",
+  imageAlt: "Helena C. Puati, Founder & CEO of Royal Wealth Heritage LLC",
+  summary:
+    "Dedicated educator with a passion for helping students discover their strengths, build confidence, and achieve meaningful success through individualized, evidence-based instruction.",
+  bioParagraphs: [
+    "Helena C. Puati is the Founder and CEO of Royal Wealth Heritage LLC and the Educational Director of the Life Skills & Learning Academy. She is a dedicated educator with a passion for helping students discover their strengths, build confidence, and achieve meaningful success.",
+    "With years of experience in Special Education, Helena has worked with students from diverse backgrounds and learning profiles, including students with autism, dyslexia, communication challenges, and emerging bilingual needs. Her expertise includes reading intervention, literacy development, life skills instruction, individualized support, and educational planning.",
+    "Helena is a certified Special Education teacher with additional training in Dyslexia Services and extensive experience supporting students in both general and special education settings. She has served as a classroom teacher, interventionist, and case manager, helping students develop the academic, social, communication, and independent living skills needed to thrive both in school and in everyday life.",
+    "What makes Helena's approach unique is her commitment to seeing each student as an individual. She believes that every learner has strengths, potential, and a purpose. Through personalized instruction and meaningful relationships, she works to create learning experiences that are engaging, encouraging, and tailored to each student's needs.",
+    "In addition to her educational background, Helena is fluent in English, Portuguese, Spanish, and French, allowing her to connect with and support families from diverse linguistic and cultural backgrounds.",
+    "Through Royal Wealth Heritage LLC – Life Skills & Learning Academy, Helena's mission is to help students build communication, independence, confidence, and lifelong success through individualized, evidence-based instruction and compassionate support.",
+    "Whether working with a struggling reader, a student with dyslexia, an emerging bilingual learner, or a student developing life skills for greater independence, Helena is committed to helping every learner reach their fullest potential.",
+  ],
+  missionStatement:
+    "To help students build communication, independence, confidence, and lifelong success through individualized, evidence-based instruction and compassionate support.",
+  motto:
+    "Helping students build communication, independence, confidence, and lifelong success.",
+  languages: "English, Portuguese, Spanish, and French",
+  credentials: [
+    "Certified Special Education Teacher",
+    "Dyslexia Services Training",
+    "Emerging Bilingual (EB) Support",
+    "Reading Intervention",
+    "Autism Support",
+    "Life Skills Instruction",
+    "Social Skills Development",
+    "Individualized Learning Plans",
+    "Family & School Collaboration",
+    "Multilingual Educator (English, Portuguese, Spanish, and French)",
+  ],
 };
 
 export const financialMission = {
@@ -40,12 +67,6 @@ export const academy = {
     "Structured educational support for students with autism, limited communication skills, and other learning differences.",
   mission:
     "To help students develop communication, academic, social, and independent living skills needed to thrive at home, in school, and in the community.",
-  founder: {
-    name: "Helena Puati",
-    title: "Founder & Educational Director",
-    credentials:
-      "Certified Special Education Teacher, ESL Certified, ELAR 4-8 Certified. Specialized experience supporting students with autism, communication challenges, and diverse learning needs.",
-  },
   sessionInfo: {
     format: "In-person and virtual sessions available",
     duration: "Sessions are typically 1 hour; parent coaching sessions are 30 minutes",

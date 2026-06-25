@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Award, CheckCircle2, Clock, Monitor, MapPin } from "lucide-react";
+import { ArrowRight, CheckCircle2, Clock, Monitor, MapPin } from "lucide-react";
 import { PageHero, SectionHeading } from "@/components/SectionHeading";
+import { FounderProfile } from "@/components/FounderProfile";
 import { ServiceCard } from "@/components/ServiceCard";
 import { DisclaimerBanner } from "@/components/DisclaimerBanner";
 import { FAQAccordion } from "@/components/FAQAccordion";
@@ -38,20 +39,7 @@ export default function AcademyPage() {
               </div>
             </div>
 
-            <aside className="rounded-3xl border border-border bg-white p-6 shadow-sm">
-              <div className="mb-4 inline-flex rounded-xl bg-magenta/10 p-3 text-magenta">
-                <Award className="h-6 w-6" />
-              </div>
-              <h3 className="font-serif text-xl font-semibold text-magenta-dark">
-                {academy.founder.name}
-              </h3>
-              <p className="mt-1 text-sm font-medium text-burnt-orange">
-                {academy.founder.title}
-              </p>
-              <p className="mt-4 text-sm leading-relaxed text-muted">
-                {academy.founder.credentials}
-              </p>
-            </aside>
+            <FounderProfile variant="academy" />
           </div>
         </div>
       </section>
@@ -164,10 +152,16 @@ export default function AcademyPage() {
                   ))}
               </ul>
               <Link
-                href="/academy/forms"
+                href="/academy/enrollment"
                 className="mt-6 inline-flex items-center gap-2 rounded-full bg-magenta px-5 py-2.5 text-sm font-semibold text-white"
               >
-                Open All Enrollment Forms <ArrowRight className="h-4 w-4" />
+                Start Enrollment Wizard <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                href="/academy/forms"
+                className="mt-3 inline-flex text-sm font-medium text-magenta underline"
+              >
+                Or open individual forms
               </Link>
             </div>
 
@@ -217,10 +211,10 @@ export default function AcademyPage() {
             student&apos;s growth and independence.
           </p>
           <Link
-            href="/academy/forms"
+            href="/academy/enrollment"
             className="mt-8 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-3.5 text-sm font-semibold text-white shadow-lg transition hover:opacity-90"
           >
-            View Enrollment Forms <ArrowRight className="h-4 w-4" />
+            Enroll Your Student <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </section>

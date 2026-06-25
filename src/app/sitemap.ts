@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/about",
     "/financial-services",
     "/academy",
+    "/academy/enrollment",
     "/academy/forms",
     ...enrollmentForms.map((f) => f.href),
     "/contact",

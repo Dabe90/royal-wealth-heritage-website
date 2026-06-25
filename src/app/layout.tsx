@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "life skills academy",
     "special education support",
     "autism learning support",
-    "Helena Puati",
+    "Helena C. Puati",
   ],
   authors: [{ name: company.name }],
   openGraph: {

@@ -80,8 +80,23 @@ export function Header() {
             );
           })}
           <Link
+            href="/academy/enrollment"
+            className={`ml-2 rounded-full px-5 py-2.5 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta ${
+              pathname.startsWith("/academy/enrollment") || pathname.startsWith("/academy/forms")
+                ? "bg-burnt-orange text-white shadow-md shadow-burnt-orange/25"
+                : "border-2 border-burnt-orange bg-burnt-orange/10 text-burnt-orange hover:bg-burnt-orange hover:text-white"
+            }`}
+            aria-current={
+              pathname.startsWith("/academy/enrollment") || pathname.startsWith("/academy/forms")
+                ? "page"
+                : undefined
+            }
+          >
+            Enroll Now
+          </Link>
+          <Link
             href="/contact"
-            className="ml-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-magenta/25 transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta"
+            className="rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-magenta/25 transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta"
           >
             Get Started
           </Link>
@@ -123,9 +138,25 @@ export function Header() {
               );
             })}
             <Link
+              href="/academy/enrollment"
+              onClick={closeMenu}
+              className={`mt-2 rounded-xl px-4 py-3 text-center text-base font-semibold ${
+                pathname.startsWith("/academy/enrollment") || pathname.startsWith("/academy/forms")
+                  ? "bg-burnt-orange text-white"
+                  : "border-2 border-burnt-orange bg-burnt-orange/10 text-burnt-orange"
+              }`}
+              aria-current={
+              pathname.startsWith("/academy/enrollment") || pathname.startsWith("/academy/forms")
+                ? "page"
+                : undefined
+            }
+            >
+              Enroll Now
+            </Link>
+            <Link
               href="/contact"
               onClick={closeMenu}
-              className="mt-2 rounded-xl bg-gradient-to-r from-magenta to-burnt-orange px-4 py-3 text-center text-base font-semibold text-white"
+              className="rounded-xl bg-gradient-to-r from-magenta to-burnt-orange px-4 py-3 text-center text-base font-semibold text-white"
             >
               Get Started
             </Link>

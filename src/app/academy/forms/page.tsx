@@ -6,6 +6,7 @@ import {
   ClipboardList,
   FileCheck,
   FileText,
+  Layers,
   Shield,
 } from "lucide-react";
 import { PageHero, SectionHeading } from "@/components/SectionHeading";
@@ -16,7 +17,7 @@ import { academy } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Enrollment Forms & Documents",
   description:
-    "Complete all RWH Life Skills & Learning Academy enrollment forms online — intake, emergency contact, medical information, waivers, and agreements.",
+    "Complete RWH Life Skills & Learning Academy enrollment online — unified wizard or individual forms.",
 };
 
 const kindIcons = {
@@ -39,7 +40,7 @@ export default function FormsHubPage() {
       <PageHero
         eyebrow={academy.subtitle}
         title="Enrollment Forms & Documents"
-        description="Click any form below to open, complete, and submit online. All documents are required before services begin."
+        description="Industry-standard enrollment: complete everything in one guided process, or open individual documents if needed."
       />
 
       <section className="px-4 py-16 sm:px-6 lg:px-8">
@@ -54,18 +55,40 @@ export default function FormsHubPage() {
 
           <DisclaimerBanner />
 
+          {/* Primary: unified wizard */}
+          <Link
+            href="/academy/enrollment"
+            className="group mt-10 flex items-center gap-5 rounded-2xl border-2 border-magenta bg-gradient-to-r from-magenta/5 to-burnt-orange/5 p-6 shadow-md transition hover:border-magenta-light hover:shadow-lg"
+          >
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-magenta to-burnt-orange text-white">
+              <Layers className="h-7 w-7" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="text-xs font-semibold tracking-wider text-burnt-orange uppercase">
+                Recommended
+              </p>
+              <h2 className="font-serif text-2xl font-semibold text-magenta-dark group-hover:text-magenta">
+                Complete All Forms — One Process
+              </h2>
+              <p className="mt-1 text-sm text-muted">
+                Step-by-step wizard with {sorted.length} sections, progress tracking, review screen,
+                and one submission. This is how most professional programs handle enrollment online.
+              </p>
+            </div>
+            <ArrowRight className="h-6 w-6 shrink-0 text-magenta transition group-hover:translate-x-1" />
+          </Link>
+
           <div className="mt-10 rounded-2xl border border-border bg-white p-5">
             <div className="flex gap-3">
               <FileCheck className="mt-0.5 h-5 w-5 shrink-0 text-burnt-orange" />
               <p className="text-sm leading-relaxed text-muted">
-                <strong className="text-foreground">Enrollment checklist:</strong> Complete all{" "}
-                {sorted.length} forms below. You may complete them in any order. We recommend
-                starting with the Parent Intake Form.
+                <strong className="text-foreground">Individual forms:</strong> Need to complete or
+                update just one document? Use the links below.
               </p>
             </div>
           </div>
 
-          <div className="mt-10 space-y-4">
+          <div className="mt-6 space-y-4">
             {sorted.map((form, index) => {
               const Icon = kindIcons[form.kind];
               return (
@@ -78,13 +101,11 @@ export default function FormsHubPage() {
                     {index + 1}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="mb-1 flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-burnt-orange/10 px-2.5 py-0.5 text-xs font-semibold text-burnt-orange">
-                        <Icon className="h-3 w-3" />
-                        {kindLabels[form.kind]}
-                      </span>
-                    </div>
-                    <h2 className="font-serif text-xl font-semibold text-magenta-dark group-hover:text-magenta">
+                    <span className="inline-flex items-center gap-1 rounded-full bg-burnt-orange/10 px-2.5 py-0.5 text-xs font-semibold text-burnt-orange">
+                      <Icon className="h-3 w-3" />
+                      {kindLabels[form.kind]}
+                    </span>
+                    <h2 className="mt-1 font-serif text-xl font-semibold text-magenta-dark group-hover:text-magenta">
                       {form.title}
                     </h2>
                     <p className="mt-1 text-sm text-muted">{form.description}</p>
