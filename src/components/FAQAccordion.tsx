@@ -32,12 +32,12 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
               <button
                 id={buttonId}
                 type="button"
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-magenta"
+                className="btn-touch flex w-full items-center justify-between gap-3 px-4 py-4 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-magenta sm:gap-4 sm:px-5"
                 onClick={() => setOpenIndex(isOpen ? null : index)}
                 aria-expanded={isOpen}
                 aria-controls={panelId}
               >
-                <span className="font-serif text-lg font-semibold text-magenta-dark">
+                <span className="font-serif text-base font-semibold text-magenta-dark sm:text-lg">
                   {item.question}
                 </span>
                 <ChevronDown
@@ -51,7 +51,7 @@ export function FAQAccordion({ items }: FAQAccordionProps) {
               role="region"
               aria-labelledby={buttonId}
               hidden={!isOpen}
-              className="border-t border-border px-5 py-4"
+              className="border-t border-border px-4 py-4 sm:px-5"
             >
               <p className="text-sm leading-relaxed text-muted">{item.answer}</p>
             </div>

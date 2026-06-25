@@ -24,37 +24,37 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32">
+      <section className="relative overflow-hidden px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-32">
         <div className="absolute inset-0 -z-10">
           <div className="absolute left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2 rounded-full bg-gradient-to-b from-magenta/10 to-transparent blur-3xl" />
         </div>
 
-        <div className="mx-auto grid max-w-7xl items-center gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 sm:gap-12 lg:grid-cols-2 lg:gap-16">
           <div>
-            <p className="mb-4 inline-flex items-center gap-2 rounded-full border border-magenta/20 bg-white/80 px-4 py-1.5 text-xs font-semibold tracking-wider text-magenta uppercase backdrop-blur">
+            <p className="mb-3 inline-flex items-center gap-2 rounded-full border border-magenta/20 bg-white/80 px-3 py-1.5 text-xs font-semibold tracking-wider text-magenta uppercase backdrop-blur sm:mb-4 sm:px-4">
               <Sparkles className="h-3.5 w-3.5" />
               Texas Registered Business
             </p>
-            <h1 className="font-serif text-4xl font-bold leading-tight text-magenta-dark sm:text-5xl lg:text-6xl">
+            <h1 className="font-serif text-3xl font-bold leading-tight text-magenta-dark sm:text-5xl lg:text-6xl">
               Empowering Growth.{" "}
               <span className="gradient-text">Building Independence.</span>{" "}
               Creating Opportunity.
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-muted sm:mt-6 sm:text-lg">
               Royal Wealth Heritage LLC delivers trusted financial guidance and specialized
               educational support through our Life Skills & Learning Academy.
             </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row">
               <Link
                 href="/financial-services"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-magenta/25 transition hover:opacity-90"
+                className="btn-touch inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-magenta/25 transition hover:opacity-90 sm:w-auto"
               >
                 Financial Services
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/academy"
-                className="inline-flex items-center justify-center gap-2 rounded-full border-2 border-magenta/30 bg-white px-7 py-3.5 text-sm font-semibold text-magenta transition hover:border-magenta hover:bg-magenta/5"
+                className="btn-touch inline-flex w-full items-center justify-center gap-2 rounded-full border-2 border-magenta/30 bg-white px-7 py-3.5 text-sm font-semibold text-magenta transition hover:border-magenta hover:bg-magenta/5 sm:w-auto"
               >
                 Life Skills Academy
                 <GraduationCap className="h-4 w-4" />
@@ -62,10 +62,10 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="relative mx-auto w-full max-w-md lg:max-w-none">
-            <div className="animate-float relative mx-auto aspect-square max-w-sm">
+          <div className="relative mx-auto w-full max-w-xs sm:max-w-md lg:max-w-none">
+            <div className="relative mx-auto aspect-square max-w-[280px] sm:max-w-sm sm:animate-float">
               <div className="absolute inset-4 rounded-full bg-gradient-to-br from-magenta/20 to-burnt-orange/20 blur-2xl" />
-              <div className="relative overflow-hidden rounded-3xl border border-gold/30 bg-white p-6 shadow-2xl shadow-magenta/15">
+              <div className="relative overflow-hidden rounded-2xl border border-gold/30 bg-white p-4 shadow-2xl shadow-magenta/15 sm:rounded-3xl sm:p-6">
                 <Image
                   src="/images/logo.png"
                   alt={`${company.name} — shield logo with crown`}
@@ -81,16 +81,16 @@ export default function HomePage() {
       </section>
 
       {/* Mission strip */}
-      <section className="border-y border-border bg-white/60 px-4 py-12 sm:px-6 lg:px-8">
+      <section className="border-y border-border bg-white/60 px-4 py-10 sm:px-6 sm:py-12 lg:px-8">
         <div className="mx-auto max-w-5xl text-center">
-          <p className="font-serif text-2xl font-medium leading-relaxed text-magenta-dark sm:text-3xl">
+          <p className="font-serif text-xl font-medium leading-relaxed text-magenta-dark sm:text-2xl lg:text-3xl">
             &ldquo;{academyMissionStatement}&rdquo;
           </p>
         </div>
       </section>
 
       {/* Two divisions */}
-      <section className="px-4 py-20 sm:px-6 lg:px-8">
+      <section className="px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Our Divisions"
@@ -99,7 +99,7 @@ export default function HomePage() {
           />
 
           <div className="mt-14 grid gap-8 lg:grid-cols-2">
-            <article className="group relative overflow-hidden rounded-3xl border border-border bg-white p-8 shadow-sm transition hover:shadow-xl">
+            <article className="group relative overflow-hidden rounded-2xl border border-border bg-white p-6 shadow-sm transition hover:shadow-xl sm:rounded-3xl sm:p-8">
               <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-magenta/5 transition group-hover:bg-magenta/10" />
               <div className="relative">
                 <div className="mb-5 inline-flex rounded-2xl bg-magenta/10 p-4 text-magenta">
@@ -118,7 +118,7 @@ export default function HomePage() {
               </div>
             </article>
 
-            <article className="group relative overflow-hidden rounded-3xl border border-border bg-white p-8 shadow-sm transition hover:shadow-xl">
+            <article className="group relative overflow-hidden rounded-2xl border border-border bg-white p-6 shadow-sm transition hover:shadow-xl sm:rounded-3xl sm:p-8">
               <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-burnt-orange/5 transition group-hover:bg-burnt-orange/10" />
               <div className="relative">
                 <div className="mb-5 inline-flex rounded-2xl bg-burnt-orange/10 p-4 text-burnt-orange">
@@ -172,7 +172,7 @@ export default function HomePage() {
       </section>
 
       {/* Services preview */}
-      <section className="px-4 py-20 sm:px-6 lg:px-8">
+      <section className="px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Financial Services"
@@ -206,7 +206,7 @@ export default function HomePage() {
           <div className="mt-10 flex flex-col items-center gap-6">
             <Link
               href="/academy"
-              className="inline-flex items-center gap-2 rounded-full bg-magenta px-6 py-3 text-sm font-semibold text-white transition hover:bg-magenta-dark"
+              className="btn-touch inline-flex w-full items-center justify-center gap-2 rounded-full bg-magenta px-6 py-3 text-sm font-semibold text-white transition hover:bg-magenta-dark sm:w-auto"
             >
               View All Academy Services <ArrowRight className="h-4 w-4" />
             </Link>
@@ -218,9 +218,9 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-20 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl rounded-3xl bg-gradient-to-r from-magenta via-magenta-light to-burnt-orange p-10 text-center shadow-2xl shadow-magenta/20 sm:p-14">
-          <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">
+      <section className="px-4 py-14 sm:px-6 sm:py-20 lg:px-8">
+        <div className="mx-auto max-w-4xl rounded-2xl bg-gradient-to-r from-magenta via-magenta-light to-burnt-orange p-6 text-center shadow-2xl shadow-magenta/20 sm:rounded-3xl sm:p-10 lg:p-14">
+          <h2 className="font-serif text-2xl font-bold text-white sm:text-3xl lg:text-4xl">
             Ready to Take the Next Step?
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-white/85">
@@ -229,7 +229,7 @@ export default function HomePage() {
           </p>
           <Link
             href="/contact"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-magenta shadow-lg transition hover:bg-cream"
+            className="btn-touch mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-magenta shadow-lg transition hover:bg-cream sm:mt-8 sm:w-auto"
           >
             Contact Us Today <ArrowRight className="h-4 w-4" />
           </Link>

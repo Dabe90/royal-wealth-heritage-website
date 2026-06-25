@@ -29,7 +29,7 @@ export function SectionHeading({
         </p>
       )}
       <h2
-        className={`font-serif text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl ${
+        className={`font-serif text-2xl font-semibold tracking-tight sm:text-4xl lg:text-5xl ${
           light ? "text-white" : "text-magenta-dark"
         }`}
       >
@@ -58,22 +58,22 @@ interface PageHeroProps {
 
 export function PageHero({ eyebrow, title, description, children }: PageHeroProps) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-magenta-dark via-magenta to-burnt-orange px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+    <section className="relative overflow-hidden bg-gradient-to-br from-magenta-dark via-magenta to-burnt-orange px-4 py-12 sm:px-6 sm:py-20 lg:px-8 lg:py-28">
       <div className="absolute inset-0 opacity-20">
         <div className="absolute -left-20 top-10 h-72 w-72 rounded-full bg-gold blur-3xl" />
         <div className="absolute -right-10 bottom-0 h-96 w-96 rounded-full bg-burnt-orange-light blur-3xl" />
       </div>
       <div className="relative mx-auto max-w-4xl text-center">
         {eyebrow && (
-          <p className="mb-4 text-sm font-semibold tracking-[0.25em] text-gold-light uppercase">
+          <p className="mb-3 text-xs font-semibold tracking-[0.15em] text-gold-light uppercase sm:text-sm sm:tracking-[0.25em]">
             {eyebrow}
           </p>
         )}
-        <h1 className="font-serif text-4xl font-bold text-white sm:text-5xl lg:text-6xl">
+        <h1 className="font-serif text-3xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
           {title}
         </h1>
         {description && (
-          <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-white/85">
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-white/85 sm:mt-6 sm:text-lg">
             {description}
           </p>
         )}

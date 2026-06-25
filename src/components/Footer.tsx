@@ -7,9 +7,9 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-border bg-magenta-dark text-white">
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+    <footer className="border-t border-border bg-magenta-dark text-white safe-bottom">
+      <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
+        <div className="grid gap-8 sm:gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div className="lg:col-span-2">
             <div className="mb-4 flex items-center gap-3">
               <div className="relative h-14 w-14 overflow-hidden rounded-full ring-2 ring-gold/50">
@@ -33,12 +33,12 @@ export function Footer() {
 
           <div>
             <h3 className="mb-4 font-serif text-lg font-semibold text-gold-light">Explore</h3>
-            <ul className="space-y-2">
+            <ul className="space-y-1">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-white/75 transition hover:text-white"
+                    className="btn-touch inline-flex items-center py-1 text-sm text-white/75 transition hover:text-white"
                   >
                     {link.label}
                   </Link>
@@ -49,18 +49,21 @@ export function Footer() {
 
           <div>
             <h3 className="mb-4 font-serif text-lg font-semibold text-gold-light">Contact</h3>
-            <ul className="space-y-2 text-sm text-white/75">
-              <li>{company.location}</li>
-              <li>{company.serviceArea}</li>
+            <ul className="space-y-1 text-sm text-white/75">
+              <li className="py-1">{company.location}</li>
+              <li className="py-1">{company.serviceArea}</li>
               <li>
-                <a href={`mailto:${company.email}`} className="transition hover:text-white">
+                <a
+                  href={`mailto:${company.email}`}
+                  className="btn-touch inline-flex items-center py-1 transition hover:text-white"
+                >
                   {company.email}
                 </a>
               </li>
               <li>
                 <a
                   href={`tel:${company.phone.replace(/\D/g, "")}`}
-                  className="transition hover:text-white"
+                  className="btn-touch inline-flex items-center py-1 transition hover:text-white"
                 >
                   {company.phone}
                 </a>
@@ -88,7 +91,7 @@ export function Footer() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="transition hover:text-white/80"
+                  className="btn-touch inline-flex items-center py-1 transition hover:text-white/80"
                 >
                   {link.label}
                 </Link>

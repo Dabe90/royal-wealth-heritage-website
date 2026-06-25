@@ -115,11 +115,20 @@ export function EnrollmentWizard() {
     <div className="space-y-8">
       {/* Progress */}
       <div>
-        <div className="mb-2 flex items-center justify-between text-sm">
-          <span className="font-medium text-magenta-dark">
-            {isReview ? "Review & Submit" : `Step ${step + 1} of ${sortedEnrollmentForms.length}`}
+        <div className="mb-2 flex items-center justify-between gap-2 text-sm">
+          <span className="min-w-0 font-medium text-magenta-dark">
+            {isReview ? (
+              "Review & Submit"
+            ) : (
+              <>
+                <span className="sm:hidden">{currentForm?.shortTitle}</span>
+                <span className="hidden sm:inline">
+                  Step {step + 1} of {sortedEnrollmentForms.length}
+                </span>
+              </>
+            )}
           </span>
-          <span className="text-muted">{progress}% complete</span>
+          <span className="shrink-0 text-muted">{progress}%</span>
         </div>
         <div className="h-2 overflow-hidden rounded-full bg-cream-dark">
           <div
@@ -199,7 +208,9 @@ export function EnrollmentWizard() {
         </div>
       ) : currentForm ? (
         <div>
-          <h2 className="font-serif text-2xl font-semibold text-magenta-dark">{currentForm.title}</h2>
+          <h2 className="font-serif text-xl font-semibold text-magenta-dark sm:text-2xl">
+            {currentForm.title}
+          </h2>
           <p className="mt-2 text-sm text-muted">{currentForm.description}</p>
           <div className="mt-6">
             <EnrollmentStepFields
@@ -213,13 +224,13 @@ export function EnrollmentWizard() {
         </div>
       ) : null}
 
-      {/* Navigation */}
-      <div className="flex flex-col-reverse gap-3 border-t border-border pt-6 sm:flex-row sm:justify-between">
+      {/* Navigation — sticky on mobile for long forms */}
+      <div className="sticky bottom-0 z-10 -mx-6 flex flex-col-reverse gap-3 border-t border-border bg-white/95 px-6 py-4 backdrop-blur-sm safe-bottom sm:static sm:mx-0 sm:flex-row sm:justify-between sm:bg-transparent sm:px-0 sm:py-0 sm:pt-6 sm:backdrop-blur-none">
         <button
           type="button"
           onClick={goBack}
           disabled={step === 0}
-          className="inline-flex items-center justify-center gap-2 rounded-full border border-magenta/30 px-6 py-3 text-sm font-semibold text-magenta disabled:opacity-40"
+          className="btn-touch inline-flex w-full items-center justify-center gap-2 rounded-full border border-magenta/30 px-6 py-3 text-sm font-semibold text-magenta disabled:opacity-40 sm:w-auto"
         >
           <ChevronLeft className="h-4 w-4" />
           Back
@@ -230,7 +241,7 @@ export function EnrollmentWizard() {
             type="button"
             onClick={handleSubmit}
             disabled={status === "submitting"}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-3 text-sm font-semibold text-white shadow-lg disabled:opacity-60"
+            className="btn-touch inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-6 py-3 text-sm font-semibold text-white shadow-lg disabled:opacity-60 sm:w-auto sm:px-8"
           >
             {status === "submitting" ? (
               <>
@@ -239,7 +250,8 @@ export function EnrollmentWizard() {
               </>
             ) : (
               <>
-                Submit Complete Enrollment
+                <span className="sm:hidden">Submit Enrollment</span>
+                <span className="hidden sm:inline">Submit Complete Enrollment</span>
                 <CheckCircle2 className="h-4 w-4" />
               </>
             )}
@@ -248,7 +260,7 @@ export function EnrollmentWizard() {
           <button
             type="button"
             onClick={goNext}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-3 text-sm font-semibold text-white shadow-lg"
+            className="btn-touch inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-6 py-3 text-sm font-semibold text-white shadow-lg sm:w-auto sm:px-8"
           >
             Continue
             <ChevronRight className="h-4 w-4" />

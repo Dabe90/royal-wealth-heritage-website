@@ -116,7 +116,7 @@ export function ContactForm() {
             autoComplete="name"
             value={form.name}
             onChange={(e) => setForm({ ...form, name: e.target.value })}
-            className="w-full rounded-xl border border-border bg-white px-4 py-3 text-sm outline-none transition focus:border-magenta focus:ring-2 focus:ring-magenta/20"
+            className="field-input"
             aria-invalid={!!errors.name}
             aria-describedby={errors.name ? "name-error" : undefined}
           />
@@ -137,7 +137,7 @@ export function ContactForm() {
             autoComplete="email"
             value={form.email}
             onChange={(e) => setForm({ ...form, email: e.target.value })}
-            className="w-full rounded-xl border border-border bg-white px-4 py-3 text-sm outline-none transition focus:border-magenta focus:ring-2 focus:ring-magenta/20"
+            className="field-input"
             aria-invalid={!!errors.email}
             aria-describedby={errors.email ? "email-error" : undefined}
           />
@@ -160,7 +160,7 @@ export function ContactForm() {
             autoComplete="tel"
             value={form.phone}
             onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            className="w-full rounded-xl border border-border bg-white px-4 py-3 text-sm outline-none transition focus:border-magenta focus:ring-2 focus:ring-magenta/20"
+            className="field-input"
           />
         </div>
 
@@ -172,7 +172,7 @@ export function ContactForm() {
             id="service"
             value={form.service}
             onChange={(e) => setForm({ ...form, service: e.target.value as ServiceType })}
-            className="w-full rounded-xl border border-border bg-white px-4 py-3 text-sm outline-none transition focus:border-magenta focus:ring-2 focus:ring-magenta/20"
+            className="field-input"
             aria-describedby="service-help"
           >
             <option value="general">General Inquiry</option>
@@ -195,7 +195,7 @@ export function ContactForm() {
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
           placeholder="Tell us about your goals or questions..."
-          className="w-full resize-y rounded-xl border border-border bg-white px-4 py-3 text-sm outline-none transition focus:border-magenta focus:ring-2 focus:ring-magenta/20"
+          className="field-input resize-y"
           aria-invalid={!!errors.message}
           aria-describedby={errors.message ? "message-error" : undefined}
         />
@@ -208,7 +208,7 @@ export function ContactForm() {
 
       <button
         type="submit"
-        className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-magenta/25 transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta sm:w-auto"
+        className="btn-touch inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-magenta/25 transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta sm:w-auto"
       >
         <Send className="h-4 w-4" />
         Send Message

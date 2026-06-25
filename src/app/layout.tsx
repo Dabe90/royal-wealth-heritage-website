@@ -52,6 +52,12 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover" as const,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -59,7 +65,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${cormorant.variable} ${dmSans.variable} h-full scroll-smooth`}>
-      <body className="marble-bg flex min-h-full flex-col font-sans antialiased">
+      <body className="marble-bg flex min-h-full flex-col overflow-x-hidden font-sans antialiased">
         <Header />
         <main id="main-content" className="flex-1">
           {children}

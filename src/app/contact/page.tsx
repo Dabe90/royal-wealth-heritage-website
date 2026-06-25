@@ -20,8 +20,8 @@ export default function ContactPage() {
         description="Reach out for financial consulting, academy enrollment, or general inquiries. We'll respond as soon as possible."
       />
 
-      <section className="px-4 py-16 sm:px-6 lg:px-8">
-        <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-5">
+      <section className="px-4 py-12 sm:px-6 sm:py-16 lg:px-8">
+        <div className="mx-auto grid max-w-7xl gap-8 sm:gap-12 lg:grid-cols-5">
           <div className="lg:col-span-2">
             <h2 className="font-serif text-2xl font-semibold text-magenta-dark">
               Contact Information
@@ -87,7 +87,7 @@ export default function ContactPage() {
             </div>
           </div>
 
-          <div className="rounded-3xl border border-border bg-white p-6 shadow-sm sm:p-8 lg:col-span-3">
+          <div className="rounded-2xl border border-border bg-white p-4 shadow-sm sm:rounded-3xl sm:p-6 lg:col-span-3 lg:p-8">
             <h2 className="font-serif text-2xl font-semibold text-magenta-dark">
               Send a Message
             </h2>
