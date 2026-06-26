@@ -1,32 +1,31 @@
-import { company } from "./content";
+import { siteUrl } from "./content";
 
-const FORMSUBMIT_URL = `https://formsubmit.co/ajax/${company.email}`;
+export type FormSubmitResult = "success" | "pending_activation" | "error";
 
 async function submitToFormSubmit(
-  payload: Record<string, string>
-): Promise<boolean> {
+  payload: Record<string, string>,
+  formPath: string
+): Promise<FormSubmitResult> {
   try {
-    const response = await fetch(FORMSUBMIT_URL, {
+    const response = await fetch("/api/submit-form", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        _template: "table",
         ...payload,
+        _url: `${siteUrl}${formPath}`,
       }),
     });
 
     const data = (await response.json()) as {
-      success?: string | boolean;
-      message?: string;
+      ok?: boolean;
+      result?: FormSubmitResult;
     };
 
-    if (data.success === false || data.success === "false") return false;
-    return response.ok;
+    if (data.result === "pending_activation") return "pending_activation";
+    if (data.ok) return "success";
+    return "error";
   } catch {
-    return false;
+    return "error";
   }
 }
 
@@ -48,17 +47,18 @@ export async function submitContactForm(payload: {
   service: string;
   message: string;
   subject: string;
-}): Promise<"success" | "error"> {
-  const ok = await submitToFormSubmit({
-    _subject: payload.subject,
-    name: payload.name,
-    email: payload.email,
-    phone: payload.phone || "Not provided",
-    service: payload.service,
-    message: payload.message,
-  });
-
-  return ok ? "success" : "error";
+}): Promise<FormSubmitResult> {
+  return submitToFormSubmit(
+    {
+      _subject: payload.subject,
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone || "Not provided",
+      service: payload.service,
+      message: payload.message,
+    },
+    "/contact"
+  );
 }
 
 export async function submitEnrollmentForm(
@@ -66,20 +66,22 @@ export async function submitEnrollmentForm(
   replyTo: string,
   formType: string,
   data: Record<string, string | boolean>,
-  emailBody: string
-): Promise<"success" | "error"> {
+  emailBody: string,
+  formPath = "/academy/enrollment"
+): Promise<FormSubmitResult> {
   const studentName =
     typeof data.studentName === "string" ? data.studentName : "Enrollment";
 
-  const ok = await submitToFormSubmit({
-    _subject: `${formTitle} — ${studentName}`,
-    _replyto: replyTo || company.email,
-    formType,
-    formattedBody: emailBody,
-    ...stringifyFields(data),
-  });
-
-  return ok ? "success" : "error";
+  return submitToFormSubmit(
+    {
+      _subject: `${formTitle} — ${studentName}`,
+      _replyto: replyTo || "",
+      formType,
+      formattedBody: emailBody,
+      ...stringifyFields(data),
+    },
+    formPath
+  );
 }
 
 export function validateEmail(email: string): boolean {
