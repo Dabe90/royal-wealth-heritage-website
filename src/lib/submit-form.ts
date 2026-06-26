@@ -1,6 +1,6 @@
 import { company } from "./content";
 
-const FORMSUBMIT_URL = `https://formsubmit.co/ajax/${encodeURIComponent(company.email)}`;
+const FORMSUBMIT_URL = `https://formsubmit.co/ajax/${company.email}`;
 
 async function submitToFormSubmit(
   payload: Record<string, string>
@@ -18,10 +18,13 @@ async function submitToFormSubmit(
       }),
     });
 
-    if (!response.ok) return false;
+    const data = (await response.json()) as {
+      success?: string | boolean;
+      message?: string;
+    };
 
-    const data = (await response.json()) as { success?: string | boolean };
-    return data.success === true || data.success === "true";
+    if (data.success === false || data.success === "false") return false;
+    return response.ok;
   } catch {
     return false;
   }
@@ -64,7 +67,7 @@ export async function submitEnrollmentForm(
   formType: string,
   data: Record<string, string | boolean>,
   emailBody: string
-): Promise<"success" | "mailto"> {
+): Promise<"success" | "error"> {
   const studentName =
     typeof data.studentName === "string" ? data.studentName : "Enrollment";
 
@@ -76,12 +79,7 @@ export async function submitEnrollmentForm(
     ...stringifyFields(data),
   });
 
-  if (ok) return "success";
-
-  const body = encodeURIComponent(emailBody);
-  const subject = encodeURIComponent(`${formTitle} — ${studentName}`);
-  window.location.href = `mailto:${company.email}?subject=${subject}&body=${body}`;
-  return "mailto";
+  return ok ? "success" : "error";
 }
 
 export function validateEmail(email: string): boolean {

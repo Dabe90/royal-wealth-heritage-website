@@ -9,7 +9,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Loader2,
-  Mail,
 } from "lucide-react";
 import { EnrollmentStepFields } from "@/components/EnrollmentStepFields";
 import {
@@ -26,7 +25,7 @@ export function EnrollmentWizard() {
   const [step, setStep] = useState(0);
   const [data, setData] = useState<Record<string, string | boolean>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "mailto">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   const isReview = step === sortedEnrollmentForms.length;
   const currentForm = isReview ? null : sortedEnrollmentForms[step];
@@ -72,7 +71,7 @@ export function EnrollmentWizard() {
       emailBody
     );
 
-    setStatus(result === "success" ? "success" : "mailto");
+    setStatus(result === "success" ? "success" : "error");
   }
 
   if (status === "success") {
@@ -93,20 +92,26 @@ export function EnrollmentWizard() {
     );
   }
 
-  if (status === "mailto") {
+  if (status === "error") {
     return (
-      <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-green-600" />
-        <h3 className="mt-4 font-serif text-2xl font-semibold text-green-900">
-          Opening Your Email App
+      <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
+        <h3 className="font-serif text-2xl font-semibold text-red-900">
+          Could Not Submit
         </h3>
-        <p className="mt-2 text-green-800">
-          Your complete enrollment packet is ready. Send the email from your mail app to finish.
+        <p className="mt-2 text-red-800">
+          Something went wrong sending your enrollment. Please try again or email us at{" "}
+          <a href={`mailto:${company.email}`} className="font-semibold underline">
+            {company.email}
+          </a>
+          .
         </p>
-        <a href={`mailto:${company.email}`} className="mt-4 inline-flex items-center gap-2 font-semibold text-green-900 underline">
-          <Mail className="h-4 w-4" />
-          {company.email}
-        </a>
+        <button
+          type="button"
+          onClick={() => setStatus("idle")}
+          className="mt-6 text-sm font-medium text-red-700 underline"
+        >
+          Try again
+        </button>
       </div>
     );
   }

@@ -2,7 +2,7 @@
 
 import { useState, FormEvent } from "react";
 import Link from "next/link";
-import { Send, CheckCircle2, Mail, Loader2, Printer } from "lucide-react";
+import { Send, CheckCircle2, Loader2, Printer } from "lucide-react";
 import {
   EnrollmentFormDefinition,
   formatFormSubmission,
@@ -25,7 +25,7 @@ export function EnrollmentFormRenderer({ definition }: EnrollmentFormRendererPro
 
   const [form, setForm] = useState(initialState);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "mailto">("idle");
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   function setField(id: string, value: string | boolean) {
     setForm((prev) => ({ ...prev, [id]: value }));
@@ -79,7 +79,7 @@ export function EnrollmentFormRenderer({ definition }: EnrollmentFormRendererPro
       emailBody
     );
 
-    setStatus(result === "success" ? "success" : "mailto");
+    setStatus(result === "success" ? "success" : "error");
     if (result === "success") setForm(initialState);
   }
 
@@ -108,27 +108,21 @@ export function EnrollmentFormRenderer({ definition }: EnrollmentFormRendererPro
     );
   }
 
-  if (status === "mailto") {
+  if (status === "error") {
     return (
-      <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-green-600" />
-        <h3 className="mt-4 font-serif text-2xl font-semibold text-green-900">
-          Opening Your Email App
-        </h3>
-        <p className="mt-2 text-green-800">
-          Your form is ready to send. Please press send in your mail app to complete submission.
+      <div className="rounded-2xl border border-red-200 bg-red-50 p-8 text-center">
+        <h3 className="font-serif text-2xl font-semibold text-red-900">Could Not Submit</h3>
+        <p className="mt-2 text-red-800">
+          Something went wrong sending your form. Please try again or email us at{" "}
+          <a href={`mailto:${company.email}`} className="font-semibold underline">
+            {company.email}
+          </a>
+          .
         </p>
-        <a
-          href={`mailto:${company.email}`}
-          className="mt-4 inline-flex items-center gap-2 font-semibold text-green-900 underline"
-        >
-          <Mail className="h-4 w-4" />
-          {company.email}
-        </a>
         <button
           type="button"
           onClick={() => setStatus("idle")}
-          className="mt-6 block w-full text-sm font-medium text-green-700 underline"
+          className="mt-6 text-sm font-medium text-red-700 underline"
         >
           Edit and resubmit
         </button>
