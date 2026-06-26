@@ -85,6 +85,11 @@ export default function AcademyPage() {
                 )}
                 <h3 className="font-serif text-xl font-semibold text-magenta-dark">{plan.name}</h3>
                 <p className="mt-3">
+                  {"pricePrefix" in plan && plan.pricePrefix && (
+                    <span className="mb-1 block text-sm font-semibold uppercase tracking-wide text-burnt-orange">
+                      {plan.pricePrefix}
+                    </span>
+                  )}
                   <span className="font-serif text-4xl font-bold text-magenta">{plan.price}</span>
                   <span className="ml-1 text-sm text-muted">{plan.unit}</span>
                 </p>

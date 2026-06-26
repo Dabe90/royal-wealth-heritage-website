@@ -358,7 +358,8 @@ export const enrollmentForms: EnrollmentFormDefinition[] = [
       {
         title: "Session Rates",
         paragraphs: academy.pricing.map(
-          (p) => `${p.name}: ${p.price} ${p.unit}. ${p.description}`
+          (p) =>
+            `${p.name}: ${"pricePrefix" in p && p.pricePrefix ? `${p.pricePrefix} ` : ""}${p.price} ${p.unit}. ${p.description}`
         ),
       },
       {

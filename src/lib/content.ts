@@ -127,6 +127,7 @@ export const academy = {
   pricing: [
     {
       name: "Individual Sessions",
+      pricePrefix: "Starting at",
       price: "$45",
       unit: "per hour",
       description: "One-on-one, individualized instruction tailored to your student's goals.",
