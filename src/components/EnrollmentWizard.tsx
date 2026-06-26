@@ -26,7 +26,7 @@ export function EnrollmentWizard() {
   const [data, setData] = useState<Record<string, string | boolean>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<
-    "idle" | "submitting" | "success" | "pending_activation" | "error"
+    "idle" | "submitting" | "success" | "error" | "not_configured"
   >("idle");
 
   const isReview = step === sortedEnrollmentForms.length;
@@ -73,23 +73,21 @@ export function EnrollmentWizard() {
       emailBody
     );
 
-    setStatus(
-      result === "success" || result === "pending_activation" ? result : "error"
-    );
+    setStatus(result === "success" ? "success" : result);
   }
 
-  if (status === "pending_activation") {
+  if (status === "not_configured") {
     return (
       <div className="rounded-2xl border border-amber-200 bg-amber-50 p-8 text-center">
-        <CheckCircle2 className="mx-auto h-12 w-12 text-amber-600" />
-        <h3 className="mt-4 font-serif text-2xl font-semibold text-amber-950">
-          Almost Ready
+        <h3 className="font-serif text-2xl font-semibold text-amber-950">
+          Form Temporarily Unavailable
         </h3>
         <p className="mt-2 text-amber-900">
-          Your enrollment was received. Check the Zoho inbox for{" "}
-          <strong>{company.email}</strong> and click the FormSubmit{" "}
-          <strong>Activate Form</strong> link. After activation, submissions will flow
-          automatically.
+          Please email us at{" "}
+          <a href={`mailto:${company.email}`} className="font-semibold underline">
+            {company.email}
+          </a>{" "}
+          to complete enrollment.
         </p>
         <Link href="/academy" className="mt-6 inline-block text-sm font-medium text-amber-800 underline">
           Back to Academy

@@ -1,29 +1,32 @@
-import { siteUrl } from "./content";
+import { company } from "./content";
 
-export type FormSubmitResult = "success" | "pending_activation" | "error";
+export type FormSubmitResult = "success" | "error" | "not_configured";
 
-async function submitToFormSubmit(
-  payload: Record<string, string>,
-  formPath: string
+const WEB3FORMS_URL = "https://api.web3forms.com/submit";
+const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+
+async function submitToWeb3Forms(
+  payload: Record<string, string>
 ): Promise<FormSubmitResult> {
+  if (!accessKey) return "not_configured";
+
   try {
-    const response = await fetch("/api/submit-form", {
+    const response = await fetch(WEB3FORMS_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
       body: JSON.stringify({
+        access_key: accessKey,
+        botcheck: "",
+        from_name: "Royal Wealth Heritage Website",
         ...payload,
-        _url: `${siteUrl}${formPath}`,
       }),
     });
 
-    const data = (await response.json()) as {
-      ok?: boolean;
-      result?: FormSubmitResult;
-    };
-
-    if (data.result === "pending_activation") return "pending_activation";
-    if (data.ok) return "success";
-    return "error";
+    const data = (await response.json()) as { success?: boolean; message?: string };
+    return data.success ? "success" : "error";
   } catch {
     return "error";
   }
@@ -48,17 +51,14 @@ export async function submitContactForm(payload: {
   message: string;
   subject: string;
 }): Promise<FormSubmitResult> {
-  return submitToFormSubmit(
-    {
-      _subject: payload.subject,
-      name: payload.name,
-      email: payload.email,
-      phone: payload.phone || "Not provided",
-      service: payload.service,
-      message: payload.message,
-    },
-    "/contact"
-  );
+  return submitToWeb3Forms({
+    subject: payload.subject,
+    name: payload.name,
+    email: payload.email,
+    phone: payload.phone || "Not provided",
+    service: payload.service,
+    message: payload.message,
+  });
 }
 
 export async function submitEnrollmentForm(
@@ -66,22 +66,19 @@ export async function submitEnrollmentForm(
   replyTo: string,
   formType: string,
   data: Record<string, string | boolean>,
-  emailBody: string,
-  formPath = "/academy/enrollment"
+  emailBody: string
 ): Promise<FormSubmitResult> {
   const studentName =
     typeof data.studentName === "string" ? data.studentName : "Enrollment";
 
-  return submitToFormSubmit(
-    {
-      _subject: `${formTitle} — ${studentName}`,
-      _replyto: replyTo || "",
-      formType,
-      formattedBody: emailBody,
-      ...stringifyFields(data),
-    },
-    formPath
-  );
+  return submitToWeb3Forms({
+    subject: `${formTitle} — ${studentName}`,
+    replyto: replyTo || company.email,
+    formType,
+    formattedBody: emailBody,
+    message: emailBody,
+    ...stringifyFields(data),
+  });
 }
 
 export function validateEmail(email: string): boolean {
