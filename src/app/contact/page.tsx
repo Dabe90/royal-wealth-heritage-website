@@ -92,8 +92,7 @@ export default function ContactPage() {
               Send a Message
             </h2>
             <p className="mt-2 text-sm text-muted">
-              Fill out the form below and your default email app will open with your message
-              ready to send.
+              Fill out the form below and we&apos;ll send your message directly to our team.
             </p>
             <div className="mt-8">
               <ContactForm />

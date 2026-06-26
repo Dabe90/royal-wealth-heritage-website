@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { Send, CheckCircle2, Mail } from "lucide-react";
+import { Send, CheckCircle2, Loader2 } from "lucide-react";
 import { company } from "@/lib/content";
+import { submitContactForm } from "@/lib/submit-form";
 
 type ServiceType = "financial" | "academy" | "general";
 
@@ -31,7 +32,7 @@ const serviceLabels: Record<ServiceType, string> = {
 export function ContactForm() {
   const [form, setForm] = useState<FormState>(initialState);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   function validate(): boolean {
     const next: Partial<Record<keyof FormState, string>> = {};
@@ -48,49 +49,43 @@ export function ContactForm() {
     return Object.keys(next).length === 0;
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!validate()) return;
 
-    const subject = encodeURIComponent(
-      `RWH Inquiry — ${serviceLabels[form.service]}`
-    );
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone || "Not provided"}\nService Interest: ${form.service}\n\nMessage:\n${form.message}`
-    );
+    setStatus("submitting");
 
-    window.location.href = `mailto:${company.email}?subject=${subject}&body=${body}`;
-    setSubmitted(true);
+    const result = await submitContactForm({
+      name: form.name,
+      email: form.email,
+      phone: form.phone,
+      service: serviceLabels[form.service],
+      message: form.message,
+      subject: `RWH Inquiry — ${serviceLabels[form.service]}`,
+    });
+
+    if (result === "success") {
+      setForm(initialState);
+      setStatus("success");
+    } else {
+      setStatus("error");
+    }
   }
 
-  if (submitted) {
+  if (status === "success") {
     return (
       <div className="rounded-2xl border border-green-200 bg-green-50 p-8 text-center">
         <CheckCircle2 className="mx-auto h-12 w-12 text-green-600" />
         <h3 className="mt-4 font-serif text-2xl font-semibold text-green-900">
-          Opening Your Email App
+          Message Sent
         </h3>
         <p className="mt-2 text-green-800">
-          Your message has been prepared. Please send the email from your mail app to complete
-          your inquiry.
+          Thank you! We received your message and will respond within 1–2 business days.
         </p>
-        <p className="mt-4 text-sm text-green-700">
-          If your email app didn&apos;t open, contact us directly:
-        </p>
-        <a
-          href={`mailto:${company.email}`}
-          className="mt-2 inline-flex items-center gap-2 font-semibold text-green-900 underline"
-        >
-          <Mail className="h-4 w-4" />
-          {company.email}
-        </a>
         <button
           type="button"
-          onClick={() => {
-            setSubmitted(false);
-            setForm(initialState);
-          }}
-          className="mt-6 block w-full text-sm font-medium text-green-700 underline"
+          onClick={() => setStatus("idle")}
+          className="mt-6 text-sm font-medium text-green-700 underline"
         >
           Send another message
         </button>
@@ -101,9 +96,19 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
       <p className="rounded-lg border border-border bg-cream-dark/50 px-4 py-3 text-xs text-muted">
-        Submitting this form will open your email app with your message pre-filled. You&apos;ll
-        need to press send in your mail app to complete the inquiry.
+        Your message is sent securely to our team at {company.email}. We&apos;ll reply to the
+        email address you provide.
       </p>
+
+      {status === "error" && (
+        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+          Something went wrong sending your message. Please try again or email us directly at{" "}
+          <a href={`mailto:${company.email}`} className="font-semibold underline">
+            {company.email}
+          </a>
+          .
+        </p>
+      )}
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
@@ -208,10 +213,20 @@ export function ContactForm() {
 
       <button
         type="submit"
-        className="btn-touch inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-magenta/25 transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta sm:w-auto"
+        disabled={status === "submitting"}
+        className="btn-touch inline-flex w-full items-center justify-center gap-2 rounded-full bg-gradient-to-r from-magenta to-burnt-orange px-8 py-4 text-sm font-semibold text-white shadow-lg shadow-magenta/25 transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-magenta disabled:opacity-60 sm:w-auto"
       >
-        <Send className="h-4 w-4" />
-        Send Message
+        {status === "submitting" ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" />
+            Sending...
+          </>
+        ) : (
+          <>
+            <Send className="h-4 w-4" />
+            Send Message
+          </>
+        )}
       </button>
     </form>
   );
